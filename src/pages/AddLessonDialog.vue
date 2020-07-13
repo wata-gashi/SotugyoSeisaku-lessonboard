@@ -84,7 +84,4 @@
     flex-direction: column;
     padding: 10px;
   }
-  th{
-    white-space: nowrap;
-  }
 </style>

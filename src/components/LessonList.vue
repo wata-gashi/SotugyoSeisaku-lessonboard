@@ -33,14 +33,21 @@
       <table class="lesson-board">
         <tr>
           <th class="empty-cell"></th>
-          <th class="number-cell" v-for="number in getLessonNumber"><span v-text="number"></span></th>
+          <th class="number-cell" :class="{'select-lesson-line': selectLessonPos.time===index}"
+              v-for="(number, index) in getLessonNumber">
+            <span v-text="number"></span>
+          </th>
         </tr>
-        <tr :class="{'today-lesson': !editMode && getNowDay() === index + 1}" v-for="(day, index) in days"
-            v-show="viewSetting==='all'||(getNowDay()===index+1)">
-          <th class="day-cell"><span v-text="day"></span></th>
-          <td class="lesson-cell" v-for="(id, lessonIndex) in lessonBoard[index]"
-              @click="editMode?$emit('select-lesson-dialog', {'day': index, 'time': lessonIndex}):''">
-            <div class="lesson-cell-inner" v-if="getLessonFromId(id)!==undefined" @click.stop="editMode?'':$emit('go-to-dialog', id)">
+        <tr :class="{'today-lesson': !editMode && getNowDay() === dayIndex + 1}" v-for="(day, dayIndex) in days"
+            v-show="viewSetting==='all'||(getNowDay()===dayIndex+1)">
+          <th class="day-cell" :class="{'select-lesson-line': selectLessonPos.day===dayIndex}"><span v-text="day"></span></th>
+          <td class="lesson-cell" :class="{
+            'select-lesson': selectLessonPos.day===dayIndex&&selectLessonPos.time===timeIndex,
+            'select-lesson-line': selectLessonPos.day===dayIndex||selectLessonPos.time===timeIndex
+          }"
+              v-for="(id, timeIndex) in lessonBoard[dayIndex]"
+              @click="editMode?selectLessonPos={day: dayIndex, time: timeIndex}:id!==-1?$emit('go-to-dialog', id):''">
+            <div class="lesson-cell-inner" v-if="getLessonFromId(id)!==undefined">
               <span v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).name:''"></span>
               <span v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).room:''"></span>
               <span v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).teacher:''"></span>
@@ -86,7 +93,11 @@
         initMaxLesson: 1,
         initStartZero: false,
         initCheckFlag: false,
-        days: ['月', '火', '水', '木', '金']
+        days: ['月', '火', '水', '木', '金'],
+        innerSelectLessonPos: {
+          day: -1,
+          time: -1
+        }
       }
     },
     methods: {
@@ -146,9 +157,23 @@
         set (value) {
           this.$store.commit('setLessonBoard', value)
         }
+      },
+      selectLessonPos: {
+        get () {
+          return this.innerSelectLessonPos
+        },
+        set (value) {
+          this.$set(this.innerSelectLessonPos, 'day', value.day)
+          this.$set(this.innerSelectLessonPos, 'time', value.time)
+          this.$emit('select-lesson', this.selectLessonPos)
+        }
       }
     },
-    created () {
+    mounted () {
+      const ele = document.getElementsByClassName('today-lesson')
+      if (ele.length > 0) {
+        ele[0].scrollIntoView()
+      }
     }
   }
 </script>
@@ -248,6 +273,8 @@
         writing-mode: horizontal-tb;
         white-space: nowrap;
         cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        max-width: 120px;
 
         span:not(:first-child){
           font-size: small;
@@ -255,6 +282,18 @@
         span:first-child{
           word-wrap: break-word;
         }
+      }
+    }
+
+    .select-lesson{
+      &-line{
+        background-color: #edffc9;
+      }
+
+      &:not(&-line){
+        background-color: $selected;
+        outline: 2px solid #2fd068;
+        outline-offset: -1px;
       }
     }
 

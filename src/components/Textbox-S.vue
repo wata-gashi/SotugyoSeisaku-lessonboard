@@ -1,6 +1,6 @@
 <template>
   <label class="tbs">
-    <input class="tbs-input" type="text" :text="text"
+    <input class="tbs-input" type="text" :value="text"
            @change="$emit('change', $event.target.value)">
     <span class="tbs-message" :class="{'exist': text.length > 0}"><slot></slot></span>
   </label>

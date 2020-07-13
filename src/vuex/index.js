@@ -56,16 +56,29 @@ const store = new Vuex.Store({
     },
     removeLesson (state, id) {
       const index = state.lessons.findIndex(lesson => lesson.id === id)
-      state.lessons.splice(index, 1, new Lesson())
+      if (index >= 0) {
+        state.lessons.splice(index, 1, new Lesson())
 
-      let boardId = 0
-      for (let day = 0; day < 5; day++) {
-        while ((boardId = state.lessonBoard[day]
-          .findIndex(lessonId => lessonId === id)) !== -1) {
-          state.lessonBoard[day].splice(boardId, 1, -1)
+        let boardId = 0
+        for (let day = 0; day < 5; day++) {
+          while ((boardId = state.lessonBoard[day]
+            .findIndex(lessonId => lessonId === id)) !== -1) {
+            state.lessonBoard[day].splice(boardId, 1, -1)
+          }
         }
+        localStorage.setItem('lessons', JSON.stringify(state.lessons))
+        localStorage.setItem('lessonBoard', JSON.stringify(state.lessonBoard))
       }
-      localStorage.setItem('lessons', JSON.stringify(state.lessons))
+    },
+    updateLesson (state, lesson) {
+      const index = state.lessons.findIndex(le => le.id === lesson.id)
+      if (index >= 0) {
+        state.lessons.splice(index, 1, lesson)
+        localStorage.setItem('lessons', JSON.stringify(state.lessons))
+      }
+    },
+    updateLessonBoard (state, args) {
+      state.lessonBoard[args.day].splice(args.time, 1, args.id)
       localStorage.setItem('lessonBoard', JSON.stringify(state.lessonBoard))
     }
   },

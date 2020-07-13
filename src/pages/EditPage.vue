@@ -12,22 +12,20 @@
     </div>
     <div class="balloon-box">
       <keep-alive>
-        <component :is="tabComponent" :edit-mode="true" @select-lesson-dialog="selectLessonDialog($event)"></component>
+        <component :is="tabComponent"></component>
       </keep-alive>
     </div>
-    <router-view name="led"/>
-    <router-view name="sld"/>
   </div>
 </template>
 
 <script>
-  import LessonList from '../components/LessonList'
   import LessonManager from '../components/LessonManager'
+  import LessonEdit from '../components/LessonEdit'
 
   export default {
     name: 'EditPage',
     components: {
-      'lesson-list': LessonList,
+      'lesson-edit': LessonEdit,
       'lesson-manager': LessonManager
     },
     data () {
@@ -36,17 +34,17 @@
       }
     },
     methods: {
-      selectLessonDialog: function (data) {
-        this.$router.push({name: 'sld', params: data})
-      }
     },
     computed: {
       tabComponent: function () {
-        return this.selectTab === 'list' ? 'lesson-list' : 'lesson-manager'
+        return this.selectTab === 'list' ? 'lesson-edit' : 'lesson-manager'
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  .edit-root{
+    margin-bottom: 50px;
+  }
 </style>

@@ -91,6 +91,9 @@
     margin: 0;
     background-color: #4c9336;
   }
+  th{
+    white-space: nowrap;
+  }
   .dialog{
     position: fixed;
     z-index: 10;

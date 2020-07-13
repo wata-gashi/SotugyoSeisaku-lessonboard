@@ -31,7 +31,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   #check-dialog-root{
     display: flex;
     width: auto;

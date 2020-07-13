@@ -1,6 +1,6 @@
 <template>
   <div class="lesson-manager-root">
-    <lesson-select-box v-model="selectLessonId"></lesson-select-box>
+    <lesson-select-box @click-lesson="clickLesson($event)"></lesson-select-box>
     <div class="right-box">
       <button-s :click-event="addLesson">追加</button-s>
     </div>
@@ -20,7 +20,6 @@
     },
     data () {
       return {
-        selectLessonId: -1
       }
     },
     methods: {
@@ -29,10 +28,8 @@
       },
       addLesson: function () {
         this.$router.push({name: 'ald'})
-      }
-    },
-    watch: {
-      selectLessonId: function (id) {
+      },
+      clickLesson: function (id) {
         if (this.isExistId(id) >= 0) {
           this.$router.push({name: 'led', params: {id: id}})
         }
