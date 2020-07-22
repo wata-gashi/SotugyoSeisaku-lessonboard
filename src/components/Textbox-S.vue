@@ -31,10 +31,15 @@
 
     &-input{
       order: 2;
+/*
       position: absolute;
       top: 0.8em;
+*/
+      position: relative;
+      margin-top: 0.8em;
       font-size: 1.2em;
       width: 90%;
+      height: 1.3em;
       outline: none;
       border: none;
       border-bottom: 1px solid #AAA;
@@ -62,7 +67,7 @@
 
       &:not(.exist){
         font-size: 1.2em;
-        transform: translateY(.9em);
+        transform: translateY(.8em);
       }
     }
     .exist{

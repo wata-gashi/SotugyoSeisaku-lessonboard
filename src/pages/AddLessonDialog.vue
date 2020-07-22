@@ -79,6 +79,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../assets/sass/global";
   .add-lesson-root{
     display: flex;
     flex-direction: column;

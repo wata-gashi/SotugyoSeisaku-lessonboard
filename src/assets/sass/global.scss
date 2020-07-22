@@ -1,2 +1,28 @@
 $main-color: #006400;
 $selected: #dbff75;
+.dialog{
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(#222, .4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-inner{
+    width: 80%;
+    height: auto;
+    max-width: 90%;
+    max-height: 90%;
+    background-color: white;
+    padding: 10px;
+    overflow-y: scroll;
+  }
+
+  &-title{
+    font-size: 1.8em;
+  }
+}

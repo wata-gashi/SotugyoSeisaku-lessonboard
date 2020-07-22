@@ -48,9 +48,10 @@
               v-for="(id, timeIndex) in lessonBoard[dayIndex]"
               @click="editMode?selectLessonPos={day: dayIndex, time: timeIndex}:id!==-1?$emit('go-to-dialog', id):''">
             <div class="lesson-cell-inner" v-if="getLessonFromId(id)!==undefined">
-              <span v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).name:''"></span>
-              <span v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).room:''"></span>
-              <span v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).teacher:''"></span>
+              <span v-if="visible.name" v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).name:''"></span>
+              <span v-if="visible.room" v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).room:''"></span>
+              <span v-if="visible.teacher" v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).teacher:''"></span>
+              <span v-if="visible.belongings" v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).belongings:''"></span>
             </div>
           </td>
         </tr>
@@ -167,6 +168,9 @@
           this.$set(this.innerSelectLessonPos, 'time', value.time)
           this.$emit('select-lesson', this.selectLessonPos)
         }
+      },
+      visible () {
+        return this.$store.state.visible
       }
     },
     mounted () {
@@ -184,7 +188,7 @@
   .lesson-list-root{
     display: flex;
     justify-content: center;
-    margin: 0 auto;
+    margin-left: auto; margin-right: auto;
     max-width: 90%;
 
     .max-lesson-setting{

@@ -95,6 +95,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../assets/sass/global";
   .lesson-edit-root{
     display: flex;
     flex-direction: column;

@@ -1,6 +1,6 @@
 <template>
   <div class="top-root">
-    <div class="balloon-box right-box">
+    <div class="balloon-box balloon-box-row right-box" v-if="visibleView">
       <label>
         <input type="radio" value="all" v-model="viewSetting">
         全表示
@@ -24,17 +24,22 @@
     components: {
       'lesson-list': LessonList
     },
-    data () {
-      return {
-        viewSetting: 'all'
-      }
-    },
     methods: {
       goToDialog: function (id) {
         this.$router.push({name: 'li', params: {id: id}})
+      }
+    },
+    computed: {
+      viewSetting: {
+        get () {
+          return this.$store.state.viewSetting
+        },
+        set (v) {
+          this.$store.commit('setViewSetting', v)
+        }
       },
-      test: function () {
-        console.log('test')
+      visibleView () {
+        return this.$store.state.maxLesson > 0 && this.$store.state.maxLesson < 9
       }
     }
   }

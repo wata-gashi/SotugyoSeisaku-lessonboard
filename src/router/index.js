@@ -7,6 +7,7 @@ import LessonEditDialog from '../pages/LessonEditDialog'
 import SettingPage from '../pages/SettingPage'
 import SelectLessonDialog from '../pages/SelectLessonDialog'
 import AddLessonDialog from '../pages/AddLessonDialog'
+import ListDisplaySettingDialog from '../pages/ListDisplaySettingDialog'
 
 Vue.use(Router)
 
@@ -70,7 +71,16 @@ const routes = [
   {
     name: 'setting',
     path: '/setting',
-    component: SettingPage
+    component: SettingPage,
+    children: [
+      {
+        name: 'ldsd',
+        path: '/setting/list-display',
+        components: {
+          ldsd: ListDisplaySettingDialog
+        }
+      }
+    ]
   }
 ]
 

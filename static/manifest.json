@@ -1,6 +1,6 @@
 {
-  "name": "SotugyoSeisaku-lessonboard",
-  "short_name": "SS sample",
+  "name": "時間割表 - 卒業制作",
+  "short_name": "時間割表",
   "icons": [
     {
       "src": "/static/img/icons/app-icon.png",

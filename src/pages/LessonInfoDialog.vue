@@ -22,6 +22,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../assets/sass/global";
   .lesson-info-root{
   }
 </style>

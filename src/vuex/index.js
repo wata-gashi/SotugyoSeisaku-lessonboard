@@ -5,11 +5,14 @@ import {Lesson} from '../jsclass/lesson'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  strict: process.env.NODE_ENV !== 'production',
   state: {
     startZero: false,
     lessons: [],
     maxLesson: 0,
-    lessonBoard: [[]]
+    lessonBoard: [[]],
+    visible: {},
+    viewSetting: ''
   },
   getters: {
   },
@@ -31,19 +34,72 @@ const store = new Vuex.Store({
       state.lessonBoard[args.day].splice(args.time, 1, args.lessonId)
       localStorage.setItem('lessonBoard', JSON.stringify(state.lessonBoard))
     },
-    initLessons (state) {
-      state.lessons = new Array(20)
-      for (let y = 0; y < state.lessons.length; y++) {
-        state.lessons[y] = new Lesson()
+    setVisible (state, n) {
+      state.visible = n
+      localStorage.setItem('visible', JSON.stringify(state.visible))
+    },
+    setViewSetting (state, v) {
+      state.viewSetting = v
+      localStorage.setItem('viewSetting', v)
+    },
+    init ({commit}) {
+      commit('initLessons')
+      commit('initLessonBoard')
+      commit('initVisible')
+    },
+    initLessons () {
+      const array = new Array(20)
+      for (let y = 0; y < array.length; y++) {
+        array[y] = new Lesson()
       }
-      localStorage.setItem('lessons', JSON.stringify(state.lessons))
+      this.commit('setLessons', array)
     },
     initLessonBoard (state) {
-      state.lessonBoard = new Array(5)
-      for (let y = 0; y < 5; y++) {
-        state.lessonBoard.splice(y, 1, new Array(state.maxLesson).fill(-1))
+      if (state.maxLesson > 0 && state.maxLesson < 9) {
+        const array = new Array(5)
+        for (let y = 0; y < 5; y++) {
+          array.splice(y, 1, new Array(state.maxLesson).fill(-1))
+        }
+        this.commit('setLessonBoard', array)
       }
-      localStorage.setItem('lessonBoard', JSON.stringify(state.lessonBoard))
+    },
+    initVisible (state) {
+      this.commit('setVisible', {
+        name: true,
+        room: true,
+        teacher: true,
+        belongings: false
+      })
+    },
+    initViewSetting () {
+      this.commit('setViewSetting', 'all')
+    },
+    loadStorage (state) {
+      state.maxLesson = localStorage.getItem('maxLesson')
+      if (state.maxLesson === null || !state.maxLesson) {
+        state.maxLesson = -1
+      }
+      state.maxLesson -= 0
+      if (state.maxLesson < 0 || state.maxLesson > 8) {
+        state.maxLesson = -1
+      }
+      state.startZero = localStorage.getItem('startZero') === 'true'
+      state.lessonBoard = JSON.parse(localStorage.getItem('lessonBoard'))
+      if (!state.lessonBoard || state.lessonBoard.length < 1) {
+        this.commit('initLessonBoard')
+      }
+      state.lessons = JSON.parse(localStorage.getItem('lessons'))
+      if (!state.lessons || state.lessons.length < 1) {
+        this.commit('initLessons')
+      }
+      state.visible = JSON.parse(localStorage.getItem('visible'))
+      if (!state.visible || Object.keys(state.visible).length !== 4) {
+        this.commit('initVisible')
+      }
+      state.viewSetting = localStorage.getItem('viewSetting')
+      if (!state.viewSetting || !(state.viewSetting === 'all' || state.viewSetting === 'today')) {
+        this.commit('initViewSetting')
+      }
     },
     addLesson (state, lesson) {
       const index = state.lessons.findIndex(lesson => lesson.id === -1)

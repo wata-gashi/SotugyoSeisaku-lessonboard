@@ -1,16 +1,18 @@
 <template>
-  <div class="dialog">
-    <div class="dialog-inner">
-      <div id="check-dialog-root">
-        <span class="title"><slot name="title"></slot></span>
-        <span class="message"><slot name="message"></slot></span>
-        <div id="select-button-box">
-          <button-s :click-event="clickYes">はい</button-s>
-          <button-s :click-event="clickNo">いいえ</button-s>
+  <transition name="fade">
+    <div class="dialog">
+      <div class="dialog-inner">
+        <div id="check-dialog-root">
+          <span class="title"><slot name="title"></slot></span>
+          <span class="message"><slot name="message"></slot></span>
+          <div id="select-button-box">
+            <button-s :click-event="clickYes">はい</button-s>
+            <button-s :click-event="clickNo">いいえ</button-s>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -32,6 +34,8 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../assets/sass/global";
+  @import "../assets/sass/fade-transition";
   #check-dialog-root{
     display: flex;
     width: auto;

@@ -8,6 +8,11 @@
           <span class="select-button-element" v-text="lesson.teacher"></span>
         </div>
       </div>
+      <div class="lesson-box" v-if="lessonList.length <= 0">
+        <span class="lesson-box-none">
+          授業が登録されていません
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -49,7 +54,7 @@
           border: 2px solid #646464;
           margin: 10px;
           padding: 5px 15px;
-          max-width: 100px;
+//          max-width: 100px;
           background-color: white;
           outline: none;
 
@@ -77,6 +82,12 @@
           &:focus{
             border-color: #207900;
           }
+        }
+
+        &-none{
+          color: darkred;
+          font-size: 1.1em;
+          padding: 10px;
         }
       }
     }
