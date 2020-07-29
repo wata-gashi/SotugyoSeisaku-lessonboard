@@ -1,11 +1,11 @@
 <template>
   <div id="footer-s">
     <span class="footer-item" :class="{selected: $route.path === '/'}"
-          @click="$route.path !== '/'? $router.push('/'): ''">トップページ</span>
+          @click="$route.path !== '/'? $router.push({name: 'top'}): ''">トップページ</span>
     <span class="footer-item" :class="{selected: $route.path.startsWith('/edit')}"
-          @click="!$route.path.startsWith('/edit')? $router.push('edit'): ''">編集</span>
+          @click="!$route.path.startsWith('/edit')? $router.push({name: 'lbe'}): ''">編集</span>
     <span class="footer-item" :class="{selected: $route.path.startsWith('/setting')}"
-          @click="!$route.path.startsWith('/setting')? $router.push('setting'): ''">設定</span>
+          @click="!$route.path.startsWith('/setting')? $router.push({name: 'setting'}): ''">設定</span>
   </div>
 </template>
 
@@ -26,7 +26,7 @@
     display: flex;
     justify-content: space-around;
     background-color: $main-color;
-    padding: 10px 0;
+    height: 3em;
 
     .footer-item{
       color: white;

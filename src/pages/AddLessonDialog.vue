@@ -9,8 +9,8 @@
         <textbox-s v-model="belongings">持ち物</textbox-s>
         <span class="horizon-margin" />
         <div class="center-box">
-          <button-s :click-event="cancel">キャンセル</button-s>
-          <button-s :click-event="ok">決定</button-s>
+          <button-s @click-event="cancel">キャンセル</button-s>
+          <button-s @click-event="ok">決定</button-s>
         </div>
         <check-dialog v-if="checkDialog"
                       :click-no="checkNo" :click-yes="checkOk">

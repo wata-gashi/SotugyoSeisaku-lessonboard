@@ -1,6 +1,5 @@
 <template>
-  <div id="header-s" v-text="title">
-  </div>
+  <div id="header-s"><span v-text="title"></span></div>
 </template>
 
 <script>
@@ -18,10 +17,20 @@
   @import "../assets/sass/global";
 
   #header-s{
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3em;
     text-align: center;
     background-color: $main-color;
-    color: white;
-    font-size: x-large;
-    padding: 5px 0;
+    z-index: 5;
+
+    span{
+      color: white;
+      font-size: x-large;
+      margin: auto;
+    }
   }
 </style>

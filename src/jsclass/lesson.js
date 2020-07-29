@@ -10,6 +10,9 @@ export class Lesson {
     this.belongings = ''
     return this
   }
+  static copy (src) {
+    return new LessonInit(src.id, src.name, src.room, src.teacher, src.belongings)
+  }
 }
 
 export class LessonInit extends Lesson {

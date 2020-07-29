@@ -12,7 +12,9 @@
     </div>
     <div class="balloon-box">
       <keep-alive>
-        <component :is="tabComponent"></component>
+        <router-view name="lbe"></router-view>
+        <router-view name="lm"></router-view>
+<!--        <component :is="tabComponent"></component>-->
       </keep-alive>
     </div>
   </div>
@@ -39,12 +41,16 @@
       tabComponent: function () {
         return this.selectTab === 'list' ? 'lesson-edit' : 'lesson-manager'
       }
+    },
+    watch: {
+      selectTab: function (tab) {
+        this.$router.push({name: tab === 'list' ? 'lbe' : 'lm'})
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
   .edit-root{
-    margin-bottom: 50px;
   }
 </style>

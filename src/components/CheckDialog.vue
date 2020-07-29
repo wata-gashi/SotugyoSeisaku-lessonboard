@@ -6,8 +6,8 @@
           <span class="title"><slot name="title"></slot></span>
           <span class="message"><slot name="message"></slot></span>
           <div id="select-button-box">
-            <button-s :click-event="clickYes">はい</button-s>
-            <button-s :click-event="clickNo">いいえ</button-s>
+            <button-s @click-event="clickYes">はい</button-s>
+            <button-s @click-event="clickNo">いいえ</button-s>
           </div>
         </div>
       </div>

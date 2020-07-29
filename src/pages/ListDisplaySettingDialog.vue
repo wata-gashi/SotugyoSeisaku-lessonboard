@@ -8,8 +8,8 @@
         <checkbox-s v-model="visibleTeacher">教師名</checkbox-s>
         <checkbox-s v-model="visibleBelongings">持ち物</checkbox-s>
         <div class="right-box">
-          <button-s :click-event="save">保存</button-s>
-          <button-s :click-event="close">閉じる</button-s>
+          <button-s @click-event="save">保存</button-s>
+          <button-s @click-event="close">閉じる</button-s>
         </div>
       </div>
     </div>

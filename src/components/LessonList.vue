@@ -20,38 +20,46 @@
                     :value="number">{{number}}時限</option>
           </select>
         </label>
-        <label>
-          <input type="checkbox" v-model="initStartZero">
-          ０時限目から開始にする
-        </label>
+        <checkbox-s v-model="initStartZero">０時限目から開始にする</checkbox-s>
       </div>
       <div id="areaC">
-        <button-s :click-event="clickInitButton">決定</button-s>
+        <button-s @click-event="clickInitButton">決定</button-s>
       </div>
     </div>
     <div class="lesson-board-area" v-else>
       <table class="lesson-board">
         <tr>
           <th class="empty-cell"></th>
-          <th class="number-cell" :class="{'select-lesson-line': selectLessonPos.time===index}"
-              v-for="(number, index) in getLessonNumber">
-            <span v-text="number"></span>
+          <th v-for="(day, dayIndex) in days"
+              class="day-cell"
+              :class="{
+                'select-lesson-line': selectLessonPos.day===dayIndex,
+                'today-lesson': !editMode && getNowDay() === dayIndex + 1
+              }"
+              v-show="viewSetting==='all'||(getNowDay()===dayIndex+1)"
+          >
+            <span v-text="day"></span>
           </th>
         </tr>
-        <tr :class="{'today-lesson': !editMode && getNowDay() === dayIndex + 1}" v-for="(day, dayIndex) in days"
-            v-show="viewSetting==='all'||(getNowDay()===dayIndex+1)">
-          <th class="day-cell" :class="{'select-lesson-line': selectLessonPos.day===dayIndex}"><span v-text="day"></span></th>
+        <tr v-for="(time, index) in getLessonNumber">
+          <th class="number-cell" :class="{'select-lesson-line': selectLessonPos.time===index}">
+            <span v-text="time"></span>
+          </th>
           <td class="lesson-cell" :class="{
-            'select-lesson': selectLessonPos.day===dayIndex&&selectLessonPos.time===timeIndex,
-            'select-lesson-line': selectLessonPos.day===dayIndex||selectLessonPos.time===timeIndex
-          }"
-              v-for="(id, timeIndex) in lessonBoard[dayIndex]"
-              @click="editMode?selectLessonPos={day: dayIndex, time: timeIndex}:id!==-1?$emit('go-to-dialog', id):''">
-            <div class="lesson-cell-inner" v-if="getLessonFromId(id)!==undefined">
-              <span v-if="visible.name" v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).name:''"></span>
-              <span v-if="visible.room" v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).room:''"></span>
-              <span v-if="visible.teacher" v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).teacher:''"></span>
-              <span v-if="visible.belongings" v-text="getLessonFromId(id)!==undefined?getLessonFromId(id).belongings:''"></span>
+                // 'select-lesson': selectLessonPos.day===dayIndex&&selectLessonPos.time===index,
+                'select-lesson-line': selectLessonPos.day===dayIndex||selectLessonPos.time===index,
+                'today-lesson': !editMode && getNowDay() === dayIndex + 1
+              }"
+              :id="(selectLessonPos.day===dayIndex&&selectLessonPos.time===index)?'select-lesson':''"
+              v-for="(lesson, dayIndex) in lessonBoard"
+              @click="editMode?selectLessonPos={day: dayIndex, time: index}:lesson[index]!==-1?$emit('go-to-dialog', lesson[index]):''"
+              v-show="viewSetting==='all'||(getNowDay()===dayIndex+1)"
+          >
+            <div class="lesson-cell-inner" v-if="show=isLessonExist(lesson[index])">
+              <span v-if="visible.name" v-text="show?getLessonFromId(lesson[index]).name:''"></span>
+              <span v-if="visible.room" v-text="show?getLessonFromId(lesson[index]).room:''"></span>
+              <span v-if="visible.teacher" v-text="show?getLessonFromId(lesson[index]).teacher:''"></span>
+              <span v-if="visible.belongings" v-text="show?getLessonFromId(lesson[index]).belongings:''"></span>
             </div>
           </td>
         </tr>
@@ -73,11 +81,13 @@
 <script>
   import ButtonS from '../components/Button-S'
   import CheckDialog from '../components/CheckDialog'
+  import CheckBoxS from '../components/Checkbox-S'
 
   export default {
     components: {
       'button-s': ButtonS,
-      'check-dialog': CheckDialog
+      'check-dialog': CheckDialog,
+      'checkbox-s': CheckBoxS
     },
     props: {
       viewSetting: {
@@ -126,6 +136,18 @@
       },
       getLessonFromId: function (id) {
         return this.$store.state.lessons.find(lesson => lesson.id === id)
+      },
+      isLessonExist: function (id) {
+        return id !== -1 && this.getLessonFromId(id) !== undefined
+      },
+      scrollSelect: function () {
+        const ele = document.getElementById('select-lesson')
+        if (ele !== null) {
+          ele.scrollIntoView({
+            behavior: 'smooth',
+            inline: 'center'
+          })
+        }
       }
     },
     computed: {
@@ -176,7 +198,18 @@
     mounted () {
       const ele = document.getElementsByClassName('today-lesson')
       if (ele.length > 0) {
-        ele[0].scrollIntoView()
+        ele[0].scrollIntoView({
+          behavior: 'smooth',
+          inline: 'center'
+        })
+      }
+    },
+    watch: {
+      selectLessonPos: {
+        handler: function () {
+          setTimeout(this.scrollSelect, 50)
+        },
+        deep: true
       }
     }
   }
@@ -244,10 +277,9 @@
     text-align: center;
     border-collapse: collapse;
     table-layout: fixed;
-    writing-mode: vertical-lr;
 
     th, td{
-      border: 1px solid $main-color;
+      border: 1px solid $border-color;
     }
 
     .day-cell{
@@ -260,45 +292,49 @@
       padding: 0 10px;
     }
 
-    .day-cell>span, .number-cell>span, .empty-cell>span{
-      writing-mode: horizontal-tb;
-      white-space: nowrap;
-    }
-
     .today-lesson{
       background-color: $selected;
     }
 
     .lesson-cell{
+      max-width: 120px;
+
       &-inner{
+        position: relative;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        writing-mode: horizontal-tb;
-        white-space: nowrap;
+        align-content: space-around;
+        /*white-space: nowrap;*/
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
-        max-width: 120px;
+        max-width: 7em;
+        margin: auto;
+        overflow: hidden;
 
         span:not(:first-child){
           font-size: small;
         }
         span:first-child{
+          position: relative;
+          width: 6.5em;
+          height: auto;
+          margin: 0 auto;
           word-wrap: break-word;
+          overflow: hidden;
+          white-space: normal;
+          font-weight: bold;
         }
       }
     }
 
-    .select-lesson{
-      &-line{
-        background-color: #edffc9;
-      }
+    .select-lesson-line{
+      background-color: #edffc9;
+    }
 
-      &:not(&-line){
-        background-color: $selected;
-        outline: 2px solid #2fd068;
-        outline-offset: -1px;
-      }
+    #select-lesson{
+      background-color: $selected;
+      outline: 2px solid #2fd068;
+      outline-offset: -1px;
     }
 
     .empty-cell{

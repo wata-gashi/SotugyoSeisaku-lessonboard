@@ -5,9 +5,10 @@ import LessonInfoDialog from '../pages/LessonInfoDialog'
 import EditPage from '../pages/EditPage'
 import LessonEditDialog from '../pages/LessonEditDialog'
 import SettingPage from '../pages/SettingPage'
-import SelectLessonDialog from '../pages/SelectLessonDialog'
 import AddLessonDialog from '../pages/AddLessonDialog'
 import ListDisplaySettingDialog from '../pages/ListDisplaySettingDialog'
+import LessonEdit from '../components/LessonEdit'
+import LessonManager from '../components/LessonManager'
 
 Vue.use(Router)
 
@@ -37,34 +38,41 @@ const routes = [
     props: true,
     children: [
       {
-        name: 'led',
-        path: '/edit/lesson-edit/:id',
+        name: 'lbe',
+        path: '/edit/board',
         components: {
-          led: LessonEditDialog
-        },
-        props: {
-          led: true
+          lbe: LessonEdit
         }
       },
       {
-        name: 'sld',
-        path: '/edit/select/:day/:time',
+        name: 'lm',
+        path: '/edit/lesson',
         components: {
-          sld: SelectLessonDialog
+          lm: LessonManager
         },
-        props: {
-          sld: true
-        }
-      },
-      {
-        name: 'ald',
-        path: '/edit/add',
-        components: {
-          ald: AddLessonDialog
-        },
-        props: {
-          ald: true
-        }
+        props: true,
+        children: [
+          {
+            name: 'led',
+            path: '/edit/lesson/:id',
+            components: {
+              led: LessonEditDialog
+            },
+            props: {
+              led: true
+            }
+          },
+          {
+            name: 'ald',
+            path: '/edit/lesson/add',
+            components: {
+              ald: AddLessonDialog
+            },
+            props: {
+              ald: true
+            }
+          }
+        ]
       }
     ]
   },

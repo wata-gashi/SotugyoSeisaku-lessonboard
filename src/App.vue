@@ -34,6 +34,10 @@
   th{
     white-space: nowrap;
   }
+  #app{
+    padding-top: 3em;
+    padding-bottom: 3em;
+  }
   .balloon-box{
     display: flex;
     flex-direction: column;

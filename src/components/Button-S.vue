@@ -19,7 +19,8 @@
     },
     methods: {
       click: function () {
-        return this.clickEvent && !this.disabled ? this.clickEvent.call() : ''
+        this.$emit('click-event')
+        // return this.clickEvent && !this.disabled ? this.clickEvent.call() : ''
       }
     }
   }
@@ -34,6 +35,7 @@
     background-color: #1b6a36;
     border-top:   2px solid transparent;
     border-right: 2px solid transparent;
+    border-radius: 30px;
 
     &:hover{
       background-color: #2fd068;

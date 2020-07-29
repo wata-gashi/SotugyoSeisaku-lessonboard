@@ -1,18 +1,16 @@
 <template>
   <div class="select-box" :class="{'horizon-view': horizonView}">
     <div class="select-box-inner">
-      <div class="lesson-box" v-for="lesson in lessonList">
+      <template v-for="lesson in lessonList">
         <div class="select-button" @click="$emit('click-lesson', lesson.id)" tabindex="0">
           <span class="select-button-element" v-text="lesson.name"></span>
           <span class="select-button-element" v-text="lesson.room"></span>
           <span class="select-button-element" v-text="lesson.teacher"></span>
         </div>
-      </div>
-      <div class="lesson-box" v-if="lessonList.length <= 0">
-        <span class="lesson-box-none">
-          授業が登録されていません
-        </span>
-      </div>
+      </template>
+      <span class="select-box-inner-none" v-if="lessonList.length <= 0">
+        授業が登録されていません
+      </span>
     </div>
   </div>
 </template>
@@ -39,62 +37,66 @@
 
   .select-box{
     position: relative;
-    border: 1px solid #999;
+    border: 1px solid $border-color;
     height: 250px;
     overflow-y: scroll;
 
     &-inner{
-      display: flex;
-      flex-wrap: wrap;
+      display: inline-block;
+      padding: 10px;
 
-      .lesson-box{
-        .select-button{
-          display: flex;
-          flex-direction: column;
-          border: 2px solid #646464;
-          margin: 10px;
-          padding: 5px 15px;
-//          max-width: 100px;
-          background-color: white;
-          outline: none;
+      .select-button{
+        display: inline-flex;
+        flex-direction: column;
+        border: 2px solid $border-color-2;
+        margin-right: 10px;
+        padding: 5px 15px;
+        background-color: white;
+        outline: none;
 
-          &-element{
-            text-align: center;
-            font-weight: normal;
+        &-element{
+          font-size: 0.7em;
+          text-align: center;
+          font-weight: normal;
+          margin-top: auto;
+          margin-bottom: auto;
+          white-space: normal;
 
-            &:first-child{
-              font-size: 1.1em;
-              word-wrap: break-word;
-            }
-          }
-
-          &:hover{
-            background-color: #c9f6b9;
-          }
-
-          &:active{
-            background-color: #5ba533;
-            & > .select-button-element{
-              color: white;
-            }
-          }
-
-          &:focus{
-            border-color: #207900;
+          &:first-child{
+            font-size: 0.9em;
+            max-width: 5.4em;
+            overflow: hidden;
+            word-wrap: break-word;
+            word-break: break-all;
           }
         }
 
-        &-none{
-          color: darkred;
-          font-size: 1.1em;
-          padding: 10px;
+        &:hover{
+          background-color: #c9f6b9;
         }
+
+        &:active{
+          background-color: #5ba533;
+          & > .select-button-element{
+            color: white;
+          }
+        }
+
+        &:focus{
+          border-color: #207900;
+        }
+      }
+
+      &-none{
+        color: darkred;
+        font-size: 1.1em;
+        padding: 10px;
       }
     }
   }
   .horizon-view{
     height: auto;
-    overflow: auto;
+    overflow-x: scroll;
     white-space: nowrap;
 
     .select-box-inner{

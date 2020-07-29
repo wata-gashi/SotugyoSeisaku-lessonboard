@@ -16,8 +16,8 @@
           </span>
         </div>
         <div class="right-box">
-          <button-s :click-event="goToBack">閉じる</button-s>
-          <button-s :click-event="done" v-if="lesson()!==undefined">決定</button-s>
+          <button-s @click-event="goToBack">閉じる</button-s>
+          <button-s @click-event="done" v-if="lesson()!==undefined">決定</button-s>
         </div>
         <check-dialog v-if="checkFlag" :click-yes="checkYes" :click-no="checkNo">
           <template v-slot:title>
@@ -42,6 +42,7 @@
   import ButtonS from '../components/Button-S'
   import TextboxS from '../components/Textbox-S'
   import CheckDialog from '../components/CheckDialog'
+  import {Lesson} from '../jsclass/lesson'
 
   export default {
     name: 'LessonEditDialog',
@@ -62,19 +63,19 @@
     },
     methods: {
       goToBack: function () {
-        this.$router.push({name: 'edit'})
+        this.$router.push({name: 'lm'})
       },
       done: function () {
         this.checkFlag = true
       },
       checkYes: function () {
-        const newLesson = this.lesson()
+        const newLesson = Lesson.copy(this.lesson())
         newLesson.name = this.name
         newLesson.room = this.room
         newLesson.teacher = this.teacher
         newLesson.belongings = this.belongings
         this.$store.commit('updateLesson', newLesson)
-        this.$router.push({name: 'edit'})
+        this.$router.push({name: 'lm'})
       },
       checkNo: function () {
         this.checkFlag = false

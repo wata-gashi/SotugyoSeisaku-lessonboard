@@ -6,13 +6,13 @@
         <span class="balloon-box-element-message">
           リスト表示項目の設定
         </span>
-        <button-s :click-event="ldsdShow">設定</button-s>
+        <button-s @click-event="ldsdShow">設定</button-s>
       </div>
       <div class="balloon-box-element">
         <span class="balloon-box-element-message">
           キャッシュの削除
         </span>
-        <button-s :click-event="cacheDelete">削除</button-s>
+        <button-s @click-event="cacheDelete">削除</button-s>
       </div>
       <check-dialog :click-yes="checkYes" :click-no="checkNo"
                     v-if="checkFlag">
