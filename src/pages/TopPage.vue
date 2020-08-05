@@ -1,16 +1,9 @@
 <template>
   <div class="top-root">
     <div class="balloon-box balloon-box-row right-box" v-if="visibleView">
-      <label>
-        <input type="radio" value="all" v-model="viewSetting">
-        全表示
-      </label>
-      <label>
-        <input type="radio" value="today" v-model="viewSetting">
-        本日のみ
-      </label>
+      <switch-s v-model="todayOnly">今日のみ表示</switch-s>
     </div>
-    <lesson-list class="balloon-box" :view-setting="viewSetting"
+    <lesson-list class="balloon-box" :today-only="todayOnly"
                  @go-to-dialog="goToDialog($event)"></lesson-list>
     <router-view name="li" />
   </div>
@@ -18,24 +11,26 @@
 
 <script>
   import LessonList from '../components/LessonList'
+  import SwitchS from '../components/Switch-S'
 
   export default {
     name: 'TopPage',
     components: {
-      'lesson-list': LessonList
+      'lesson-list': LessonList,
+      'switch-s': SwitchS
     },
     methods: {
       goToDialog: function (id) {
-        this.$router.push({name: 'li', params: {id: id}})
+        this.$router.push({name: 'li', params: {id: id.toString()}})
       }
     },
     computed: {
-      viewSetting: {
+      todayOnly: {
         get () {
-          return this.$store.state.viewSetting
+          return this.$store.state.todayOnly
         },
         set (v) {
-          this.$store.commit('setViewSetting', v)
+          this.$store.commit('setTodayOnly', v)
         }
       },
       visibleView () {
@@ -49,5 +44,6 @@
   .top-root{
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
   }
 </style>

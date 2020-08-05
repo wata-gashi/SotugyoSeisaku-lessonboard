@@ -1,17 +1,43 @@
 <template>
   <div id="footer-s">
-    <span class="footer-item" :class="{selected: $route.path === '/'}"
-          @click="$route.path !== '/'? $router.push({name: 'top'}): ''">トップページ</span>
-    <span class="footer-item" :class="{selected: $route.path.startsWith('/edit')}"
-          @click="!$route.path.startsWith('/edit')? $router.push({name: 'lbe'}): ''">編集</span>
-    <span class="footer-item" :class="{selected: $route.path.startsWith('/setting')}"
-          @click="!$route.path.startsWith('/setting')? $router.push({name: 'setting'}): ''">設定</span>
+    <label class="footer-label">
+      <input class="footer-radio" type="radio" v-model="inTab" value="top">
+      <span class="footer-item">ホーム</span>
+    </label>
+    <label class="footer-label">
+      <input class="footer-radio" type="radio" v-model="inTab" value="edit">
+      <span class="footer-item">編集</span>
+    </label>
+    <label class="footer-label">
+      <input class="footer-radio" type="radio" v-model="inTab" value="setting">
+      <span class="footer-item">設定</span>
+    </label>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'Footer-S'
+    name: 'Footer-S',
+    data () {
+      return {
+        inTab: 'top'
+      }
+    },
+    watch: {
+      inTab: function (to, from) {
+        if (to !== from && this.$route.matched[0].name !== to) {
+          this.$router.push({name: to})
+        }
+      },
+      $route: function (to) {
+        this.inTab = to.matched[0].name
+      }
+    },
+    mounted () {
+      this.$nextTick(() => {
+        this.inTab = this.$route.matched[0].name
+      })
+    }
   }
 </script>
 
@@ -28,22 +54,29 @@
     background-color: $main-color;
     height: 3em;
 
-    .footer-item{
-      color: white;
-      font-size: large;
-      font-weight: bold;
+    .footer-label{
+      display: flex;
       margin: auto 0;
-      opacity: 0.7;
-      transform: scale(0.9);
-      border-bottom: 2px transparent solid;
-      transition: opacity .3s, transform .3s, border-bottom-color .3s;
-    }
 
-    .selected{
-      opacity: 1;
-      transform: scale(1);
-      border-bottom-color: white;
+      .footer-item{
+        color: white;
+        font-size: large;
+        font-weight: bold;
+        opacity: 0.7;
+        transform: scale(0.9);
+        border-bottom: 2px transparent solid;
+        transition: opacity .3s, transform .3s, border-bottom-color .3s;
+      }
+
+      .footer-radio{
+        display: none;
+
+        &:checked + .footer-item{
+          opacity: 1;
+          transform: scale(1);
+          border-bottom-color: white;
+        }
+      }
     }
   }
-
 </style>

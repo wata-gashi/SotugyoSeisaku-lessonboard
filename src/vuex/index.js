@@ -12,7 +12,7 @@ const store = new Vuex.Store({
     maxLesson: 0,
     lessonBoard: [[]],
     visible: {},
-    viewSetting: ''
+    todayOnly: false
   },
   getters: {
   },
@@ -38,9 +38,9 @@ const store = new Vuex.Store({
       state.visible = n
       localStorage.setItem('visible', JSON.stringify(state.visible))
     },
-    setViewSetting (state, v) {
-      state.viewSetting = v
-      localStorage.setItem('viewSetting', v)
+    setTodayOnly (state, v) {
+      state.todayOnly = v
+      localStorage.setItem('todayOnly', v)
     },
     init ({commit}) {
       commit('initLessons')
@@ -71,9 +71,6 @@ const store = new Vuex.Store({
         belongings: false
       })
     },
-    initViewSetting () {
-      this.commit('setViewSetting', 'all')
-    },
     loadStorage (state) {
       state.maxLesson = localStorage.getItem('maxLesson')
       if (state.maxLesson === null || !state.maxLesson) {
@@ -96,10 +93,7 @@ const store = new Vuex.Store({
       if (!state.visible || Object.keys(state.visible).length !== 4) {
         this.commit('initVisible')
       }
-      state.viewSetting = localStorage.getItem('viewSetting')
-      if (!state.viewSetting || !(state.viewSetting === 'all' || state.viewSetting === 'today')) {
-        this.commit('initViewSetting')
-      }
+      state.todayOnly = localStorage.getItem('todayOnly') === 'true'
     },
     addLesson (state, lesson) {
       const index = state.lessons.findIndex(lesson => lesson.id === -1)

@@ -36,7 +36,7 @@
                 'select-lesson-line': selectLessonPos.day===dayIndex,
                 'today-lesson': !editMode && getNowDay() === dayIndex + 1
               }"
-              v-show="viewSetting==='all'||(getNowDay()===dayIndex+1)"
+              v-show="!todayOnly||(getNowDay()===dayIndex+1)"
           >
             <span v-text="day"></span>
           </th>
@@ -51,15 +51,17 @@
                 'today-lesson': !editMode && getNowDay() === dayIndex + 1
               }"
               :id="(selectLessonPos.day===dayIndex&&selectLessonPos.time===index)?'select-lesson':''"
-              v-for="(lesson, dayIndex) in lessonBoard"
-              @click="editMode?selectLessonPos={day: dayIndex, time: index}:lesson[index]!==-1?$emit('go-to-dialog', lesson[index]):''"
-              v-show="viewSetting==='all'||(getNowDay()===dayIndex+1)"
+              v-for="(lessons, dayIndex) in lessonBoard"
+              @click="clickLesson(dayIndex, index, lessons)"
+              v-show="!todayOnly||(getNowDay()===dayIndex+1)"
           >
-            <div class="lesson-cell-inner" v-if="show=isLessonExist(lesson[index])">
-              <span v-if="visible.name" v-text="show?getLessonFromId(lesson[index]).name:''"></span>
-              <span v-if="visible.room" v-text="show?getLessonFromId(lesson[index]).room:''"></span>
-              <span v-if="visible.teacher" v-text="show?getLessonFromId(lesson[index]).teacher:''"></span>
-              <span v-if="visible.belongings" v-text="show?getLessonFromId(lesson[index]).belongings:''"></span>
+            <div class="lesson-cell-inner" v-if="show=isLessonExist(lessons[index])">
+              <span class="name" v-if="visible.name" v-text="show?getLessonFromId(lessons[index]).name:''"></span>
+              <div class="mini-box">
+                <span v-if="visible.room" v-text="show?getLessonFromId(lessons[index]).room:''"></span>
+                <span class="teacher" v-if="visible.teacher" v-text="show?getLessonFromId(lessons[index]).teacher:''"></span>
+              </div>
+              <span v-if="visible.belongings" v-text="show?getLessonFromId(lessons[index]).belongings:''"></span>
             </div>
           </td>
         </tr>
@@ -90,9 +92,9 @@
       'checkbox-s': CheckBoxS
     },
     props: {
-      viewSetting: {
-        type: String,
-        default: 'all'
+      todayOnly: {
+        type: Boolean,
+        default: false
       },
       editMode: {
         type: Boolean,
@@ -147,6 +149,19 @@
             behavior: 'smooth',
             inline: 'center'
           })
+        }
+      },
+      clickLesson: function (dayIndex, timeIndex, lesson) {
+        if (this.editMode) {
+          if (this.selectLessonPos.day === dayIndex && this.selectLessonPos.time === timeIndex) {
+            this.selectLessonPos = { day: -1, time: -1 }
+          } else {
+            this.selectLessonPos = {
+              day: dayIndex, time: timeIndex
+            }
+          }
+        } else if (lesson[timeIndex] !== -1) {
+          this.$emit('go-to-dialog', lesson[timeIndex])
         }
       }
     },
@@ -292,43 +307,73 @@
       padding: 0 10px;
     }
 
-    .today-lesson{
-      background-color: $selected;
+    .day-cell, .number-cell{
+      background-color: #e1f6e1;
+    }
+
+    .empty-cell{
+      background-color: #c6e9c6;
     }
 
     .lesson-cell{
       max-width: 120px;
+      padding: 3px;
 
       &-inner{
         position: relative;
         display: flex;
         flex-direction: column;
-        align-content: space-around;
         /*white-space: nowrap;*/
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
         max-width: 7em;
-        margin: auto;
         overflow: hidden;
 
-        span:not(:first-child){
-          font-size: small;
-        }
-        span:first-child{
-          position: relative;
-          width: 6.5em;
-          height: auto;
-          margin: 0 auto;
-          word-wrap: break-word;
-          overflow: hidden;
+        span{
           white-space: normal;
-          font-weight: bold;
+          margin: auto;
+
+          &:not(.name){
+            font-size: small;
+          }
+          &.name{
+            position: relative;
+            width: 6.5em;
+            height: auto;
+            word-wrap: break-word;
+            overflow: hidden;
+          }
+        }
+        .mini-box{
+          display: flex;
+          margin: 0.5em auto;
+
+          span{
+            padding: 0 0.5em;
+            margin: auto 0;
+
+            &:last-child:not(:first-child){
+              border-left: solid 1px $border-color;
+            }
+          }
         }
       }
     }
 
+    .today-lesson{
+      background-color: #a5ff75;
+
+      &:not(.day-cell){
+        background-color: $selected;
+      }
+    }
+
     .select-lesson-line{
-      background-color: #edffc9;
+      background-color: #bbe9a5;
+
+      &:not(.day-cell):not(.number-cell){
+        background-color: #edffc9;
+      }
     }
 
     #select-lesson{

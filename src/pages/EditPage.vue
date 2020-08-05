@@ -1,12 +1,12 @@
 <template>
   <div class="edit-root">
     <div class="balloon-tab">
-      <label class="tab-button" :class="{'tab-button-active': selectTab==='list'}">
-        <input type="radio" v-model="selectTab" value="list">
+      <label class="tab-button" :class="{'tab-button-active': selectTab==='lbe'}">
+        <input type="radio" v-model="selectTab" value="lbe">
         時間割編集
       </label>
-      <label class="tab-button" :class="{'tab-button-active': selectTab==='lesson'}">
-        <input type="radio" v-model="selectTab" value="lesson">
+      <label class="tab-button" :class="{'tab-button-active': selectTab==='lm'}">
+        <input type="radio" v-model="selectTab" value="lm">
         授業管理
       </label>
     </div>
@@ -14,7 +14,6 @@
       <keep-alive>
         <router-view name="lbe"></router-view>
         <router-view name="lm"></router-view>
-<!--        <component :is="tabComponent"></component>-->
       </keep-alive>
     </div>
   </div>
@@ -32,20 +31,24 @@
     },
     data () {
       return {
-        selectTab: 'list'
+        selectTab: ''
       }
     },
     methods: {
     },
     computed: {
-      tabComponent: function () {
-        return this.selectTab === 'list' ? 'lesson-edit' : 'lesson-manager'
-      }
     },
     watch: {
-      selectTab: function (tab) {
-        this.$router.push({name: tab === 'list' ? 'lbe' : 'lm'})
+      selectTab: function (to, from) {
+        if (to !== from && this.$route.matched[1].name !== to) {
+          this.$router.push({name: to})
+        }
       }
+    },
+    mounted () {
+      this.$nextTick(() => {
+        this.selectTab = this.$route.matched[1].name
+      })
     }
   }
 </script>

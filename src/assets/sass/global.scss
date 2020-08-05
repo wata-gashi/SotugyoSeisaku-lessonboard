@@ -20,11 +20,16 @@ $border-color-2: #a7d4a7;
     max-width: 90%;
     max-height: 90%;
     background-color: white;
-    padding: 10px;
+    padding: 20px;
     overflow-y: scroll;
   }
 
-  &-title{
-    font-size: 1.8em;
+  .head{
+    display: flex;
+
+    .dialog-title{
+      font-size: 1.8em;
+      flex-grow: 2;
+    }
   }
 }

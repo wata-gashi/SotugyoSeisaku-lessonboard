@@ -1,8 +1,9 @@
 <template>
-  <div class="select-box" :class="{'horizon-view': horizonView}">
+  <div class="select-box">
     <div class="select-box-inner">
       <template v-for="lesson in lessonList">
-        <div class="select-button" @click="$emit('click-lesson', lesson.id)" tabindex="0">
+        <div class="select-button" :class="{'sb-selected': lesson.id === selectId}"
+             @click="clickSb(lesson.id)" tabindex="0">
           <span class="select-button-element" v-text="lesson.name"></span>
           <span class="select-button-element" v-text="lesson.room"></span>
           <span class="select-button-element" v-text="lesson.teacher"></span>
@@ -18,15 +19,49 @@
 <script>
   export default {
     name: 'LessonSelectBox',
+    model: {
+      prop: 'selectId',
+      event: 'change'
+    },
     props: {
-      horizonView: {
-        type: Boolean,
-        default: false
+      selectId: {
+        type: Number,
+        default: -1
+      }
+    },
+    data () {
+      return {
+        clickFlag: false
       }
     },
     computed: {
       lessonList: function () {
         return this.$store.state.lessons.filter(target => target.id !== -1)
+      }
+    },
+    methods: {
+      clickSb (id) {
+        if (this.selectId === id) id = -1
+        this.$emit('change', id)
+        this.clickFlag = true
+      }
+    },
+    watch: {
+      selectId (to) {
+        if (to !== -1) {
+          this.$nextTick(() => {
+            const sel = document.getElementsByClassName('sb-selected')
+            if (sel.length > 0) {
+              if (this.clickFlag) {
+                this.clickFlag = false
+                return
+              }
+              sel[0].scrollIntoView({
+                inline: 'center'
+              })
+            }
+          })
+        }
       }
     }
   }
@@ -38,12 +73,14 @@
   .select-box{
     position: relative;
     border: 1px solid $border-color;
-    height: 250px;
-    overflow-y: scroll;
+    height: auto;
+    overflow-x: scroll;
+    white-space: nowrap;
 
     &-inner{
       display: inline-block;
       padding: 10px;
+      flex-flow: row nowrap;
 
       .select-button{
         display: inline-flex;
@@ -81,10 +118,9 @@
             color: white;
           }
         }
-
-        &:focus{
-          border-color: #207900;
-        }
+      }
+      .sb-selected{
+        border-color: #207900;
       }
 
       &-none{
@@ -92,15 +128,6 @@
         font-size: 1.1em;
         padding: 10px;
       }
-    }
-  }
-  .horizon-view{
-    height: auto;
-    overflow-x: scroll;
-    white-space: nowrap;
-
-    .select-box-inner{
-      flex-flow: row nowrap;
     }
   }
 </style>

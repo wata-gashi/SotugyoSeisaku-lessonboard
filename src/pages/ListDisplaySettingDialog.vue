@@ -1,19 +1,24 @@
 <template>
-  <div class="dialog">
-    <div class="dialog-inner">
-      <span class="dialog-title">リスト表示項目</span>
-      <div class="lds-root">
-        <checkbox-s v-model="visibleName">授業名</checkbox-s>
-        <checkbox-s v-model="visibleRoom">教室</checkbox-s>
-        <checkbox-s v-model="visibleTeacher">教師名</checkbox-s>
-        <checkbox-s v-model="visibleBelongings">持ち物</checkbox-s>
-        <div class="right-box">
-          <button-s @click-event="save">保存</button-s>
-          <button-s @click-event="close">閉じる</button-s>
+  <transition name="fade">
+    <div class="dialog">
+      <div class="dialog-inner">
+        <div class="head">
+          <span class="dialog-title">リスト表示項目</span>
+          <button-s :close="true" @click-event="close"></button-s>
+        </div>
+        <div class="lds-root">
+          <checkbox-s v-model="visibleName">授業名</checkbox-s>
+          <checkbox-s v-model="visibleRoom">教室</checkbox-s>
+          <checkbox-s v-model="visibleTeacher">教師名</checkbox-s>
+          <checkbox-s v-model="visibleBelongings">持ち物</checkbox-s>
+          <span class="horizon-margin"/>
+          <div class="right-box">
+            <button-s @click-event="save">保存</button-s>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -60,6 +65,8 @@
 
 <style lang="scss" scoped>
   @import "../assets/sass/global";
+  @import "../assets/sass/fade-transition";
+
   .lds-root{
     display: flex;
     flex-direction: column;

@@ -33,11 +33,12 @@
               <span class="name" v-text="lesson.name"></span>
               <span class="box">
                 <span v-text="lesson.room"></span>
-                <span v-text="lesson.teacher"></span>
+                <span class="teacher" v-text="lesson.teacher"></span>
               </span>
               <span class="belongings" v-text="lesson.belongings"></span>
             </span>
             <span class="edit-box right-box">
+              <button-s :red="true" @click-event="clickRemove(lesson.id)">削除</button-s>
               <button-s @click-event="clickLesson(lesson.id)">編集</button-s>
             </span>
           </span>
@@ -49,21 +50,36 @@
     </div>
     <router-view name="ald"/>
     <router-view name="led"/>
+    <check-dialog v-if="removeCheck" :click-yes="removeOk" :click-no="removeNo">
+      <template v-slot:title>確認</template>
+      <template v-slot:message>
+        <p>
+          以下の授業を削除してもよろしいですか？
+        </p>
+        <lesson-table :lesson="removeLesson"/>
+      </template>
+    </check-dialog>
   </div>
 </template>
 
 <script>
   import LessonSelectBox from './LessonSelectBox'
   import ButtonS from './Button-S'
+  import CheckDialog from './CheckDialog'
+  import LessonTable from './LessonTable'
 
   export default {
     components: {
       'lesson-select-box': LessonSelectBox,
-      'button-s': ButtonS
+      'button-s': ButtonS,
+      'check-dialog': CheckDialog,
+      'lesson-table': LessonTable
     },
     data () {
       return {
-        selectLesson: -1
+        selectLesson: -1,
+        removeCheck: false,
+        removeLessonId: -1
       }
     },
     methods: {
@@ -75,8 +91,21 @@
       },
       clickLesson: function (id) {
         if (this.isExistId(id) >= 0) {
-          this.$router.push({name: 'led', params: {id: id}})
+          this.$router.push({name: 'led', params: {id: id.toString()}})
         }
+      },
+      clickRemove (id) {
+        if (this.isExistId(id) >= 0) {
+          this.removeCheck = true
+          this.removeLessonId = id
+        }
+      },
+      removeOk () {
+        this.removeCheck = false
+        this.$store.dispatch('removeLesson', this.removeLessonId)
+      },
+      removeNo () {
+        this.removeCheck = false
       }
     },
     computed: {
@@ -84,6 +113,10 @@
         get () {
           return this.$store.state.lessons.filter(lesson => lesson.id !== -1)
         }
+      },
+      removeLesson () {
+        if (this.removeLessonId === -1) return undefined
+        return this.$store.state.lessons.find(lesson => lesson.id === this.removeLessonId)
       }
     }
   }

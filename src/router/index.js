@@ -21,7 +21,7 @@ const routes = [
     children: [
       {
         name: 'li',
-        path: '/lesson-info/:id',
+        path: 'lesson-info/:id',
         components: {
           li: LessonInfoDialog
         },
@@ -34,42 +34,43 @@ const routes = [
   {
     name: 'edit',
     path: '/edit',
+    redirect: '/edit/board',
     component: EditPage,
     props: true,
     children: [
       {
         name: 'lbe',
-        path: '/edit/board',
+        path: 'board',
         components: {
           lbe: LessonEdit
         }
       },
       {
         name: 'lm',
-        path: '/edit/lesson',
+        path: 'lesson',
         components: {
           lm: LessonManager
         },
         props: true,
         children: [
           {
-            name: 'led',
-            path: '/edit/lesson/:id',
-            components: {
-              led: LessonEditDialog
-            },
-            props: {
-              led: true
-            }
-          },
-          {
             name: 'ald',
-            path: '/edit/lesson/add',
+            path: 'add',
             components: {
               ald: AddLessonDialog
             },
             props: {
               ald: true
+            }
+          },
+          {
+            name: 'led',
+            path: ':id',
+            components: {
+              led: LessonEditDialog
+            },
+            props: {
+              led: true
             }
           }
         ]
@@ -83,7 +84,7 @@ const routes = [
     children: [
       {
         name: 'ldsd',
-        path: '/setting/list-display',
+        path: 'list-display',
         components: {
           ldsd: ListDisplaySettingDialog
         }

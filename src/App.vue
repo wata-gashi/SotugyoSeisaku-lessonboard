@@ -128,4 +128,14 @@
 
     }
   }
+
+  .teacher{
+    line-height: 0.9em;
+
+    &:after{
+      display: inline-block;
+      content: '先生';
+      font-size: 0.7em;
+    }
+  }
 </style>
