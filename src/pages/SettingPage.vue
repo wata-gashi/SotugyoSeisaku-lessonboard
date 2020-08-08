@@ -5,7 +5,7 @@
       <span>
         <img :src="getIconUrl()" alt="アプリアイコン" width="64" height="64">
       </span>
-      <span>&copy;watagashi 2020</span>
+      <span>&copy;2020 watagashi</span>
     </div>
     <div class="balloon-box">
       <span class="balloon-box-title">設定</span>
