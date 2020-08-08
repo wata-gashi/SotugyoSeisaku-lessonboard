@@ -15,6 +15,7 @@
 
 <style lang="scss" scoped>
   @import "../assets/sass/global";
+  @import "../assets/sass/color";
 
   #header-s{
     position: fixed;
@@ -24,7 +25,7 @@
     width: 100%;
     height: 3em;
     text-align: center;
-    background-color: $main-color;
+    background-color: $main1-color;
     z-index: 5;
 
     span{

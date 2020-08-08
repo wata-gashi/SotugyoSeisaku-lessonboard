@@ -1,19 +1,5 @@
 <template>
   <div class="lesson-manager-root">
-<!--    <lesson-select-box @click-lesson="clickLesson($event)"></lesson-select-box>-->
-<!--
-    <table>
-      <tr>
-        <th>授業名</th><th>教室名</th><th>教師名</th><th>持ち物</th>
-      </tr>
-      <tr @click="clickLesson(lesson.id)" v-for="lesson in lessonList">
-        <td v-text="lesson.name"></td>
-        <td v-text="lesson.room"></td>
-        <td v-text="lesson.teacher"></td>
-        <td v-text="lesson.belongings"></td>
-      </tr>
-    </table>
--->
     <div class="lesson-manager-container">
       <div class="lesson-box head">
         <div class="info">
@@ -43,6 +29,9 @@
             </span>
           </span>
         </label>
+        <div class="lesson-box message-warning" v-if="lessonList.length===0">
+          授業が登録されていません
+        </div>
       </div>
     </div>
     <div class="right-box">
@@ -124,6 +113,7 @@
 
 <style lang="scss" scoped>
   @import "../assets/sass/global";
+  @import "../assets/sass/color";
 
   .lesson-manager-root{
     display: flex;
@@ -196,7 +186,7 @@
       padding: 5px;
       font-weight: bold;
       text-align: center;
-      background-color: #e1f6e1;
+      background-color: $head-color-1;
       border-bottom: 2px solid $border-color-2;
     }
 
@@ -205,7 +195,7 @@
         display: none;
 
         &:checked + .lesson-box{
-          background-color: #c1ffd5;
+          background-color: $hover-color-1;
 
           .edit-box{
             max-height: 50px;
@@ -222,7 +212,7 @@
 
       &:nth-child(even){
         .lesson-box{
-          background-color: #f7fff7;
+          background-color: $row-color-1;
         }
       }
     }

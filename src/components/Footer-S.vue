@@ -43,6 +43,7 @@
 
 <style lang="scss" scoped>
   @import "../assets/sass/global";
+  @import "../assets/sass/color";
 
   #footer-s{
     position: fixed;
@@ -51,7 +52,7 @@
     right: 0;
     display: flex;
     justify-content: space-around;
-    background-color: $main-color;
+    background-color: $main2-color;
     height: 3em;
 
     .footer-label{

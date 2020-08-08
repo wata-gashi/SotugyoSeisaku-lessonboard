@@ -7,7 +7,9 @@
           <table class="lesson-board">
             <tr>
               <th class="empty-cell"><span>時限</span></th>
-              <th class="number-cell" v-for="number in getInitLessonNumber"><span v-text="number"></span></th>
+            </tr>
+            <tr v-for="number in getInitLessonNumber">
+              <th class="number-cell"><span v-text="number"></span></th>
             </tr>
           </table>
         </div>
@@ -232,17 +234,18 @@
 
 <style lang="scss" scoped>
   @import "../assets/sass/global";
+  @import "../assets/sass/color";
 
   .lesson-list-root{
     display: flex;
     justify-content: center;
     margin-left: auto; margin-right: auto;
-    max-width: 90%;
+    max-width: 100%;
 
     .max-lesson-setting{
       display: grid;
       grid-template-columns: 80px 1fr;
-      grid-template-rows: 1fr 130px 130px;
+      grid-template-rows: 1fr 130px auto;
 
       .message{
         grid-row: 1 / 2;
@@ -251,7 +254,7 @@
         font-size: 1.2em;
         text-align: center;
         margin: 10px 0;
-        border-bottom: 2px dotted #143e00;
+        border-bottom: 2px dotted $border-color-3;
       }
 
       #areaA{
@@ -303,20 +306,20 @@
     }
 
     .number-cell{
-      height: 70px;
-      padding: 0 10px;
+      padding: 10px;
     }
 
     .day-cell, .number-cell{
-      background-color: #e1f6e1;
+      background-color: $head-color-1;
     }
 
     .empty-cell{
-      background-color: #c6e9c6;
+      background-color: $head-color-2;
     }
 
     .lesson-cell{
       max-width: 120px;
+      height: 70px;
       padding: 3px;
 
       &-inner{
@@ -361,7 +364,7 @@
     }
 
     .today-lesson{
-      background-color: #a5ff75;
+      background-color: $point-color;
 
       &:not(.day-cell){
         background-color: $selected;
@@ -369,16 +372,16 @@
     }
 
     .select-lesson-line{
-      background-color: #bbe9a5;
+      background-color: $point-sub-color;
 
       &:not(.day-cell):not(.number-cell){
-        background-color: #edffc9;
+        background-color: $point-sub2-color;
       }
     }
 
     #select-lesson{
       background-color: $selected;
-      outline: 2px solid #2fd068;
+      outline: 2px solid $border-color-4;
       outline-offset: -1px;
     }
 

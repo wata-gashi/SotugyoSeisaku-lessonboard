@@ -3,8 +3,10 @@
     <div class="balloon-box balloon-box-row right-box" v-if="visibleView">
       <switch-s v-model="todayOnly">今日のみ表示</switch-s>
     </div>
-    <lesson-list class="balloon-box" :today-only="todayOnly"
-                 @go-to-dialog="goToDialog($event)"></lesson-list>
+    <div class="balloon-box">
+      <lesson-list :today-only="todayOnly"
+                   @go-to-dialog="goToDialog($event)"></lesson-list>
+    </div>
     <router-view name="li" />
   </div>
 </template>
@@ -41,9 +43,13 @@
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/sass/baloon";
+@import "../assets/sass/global";
+
   .top-root{
     display: flex;
     flex-direction: column;
+    max-width: 700px;
     margin: 0 auto;
   }
 </style>

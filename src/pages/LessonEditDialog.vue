@@ -163,6 +163,5 @@
   .lesson-edit-root{
     display: flex;
     flex-direction: column;
-    background-color: white;
   }
 </style>

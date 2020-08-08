@@ -40,9 +40,11 @@
     font-weight: bolder;
     padding: 7px 15px;
     margin: 5px;
-    background-color: #1b6a36;
+    background-color: #1f8643;
     border-radius: 30px;
-    transition: background-color .2s;
+    text-align: center;
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+    transition: background-color .2s, box-shadow .2s;
 
     &:hover{
       background-color: #2fd068;
@@ -50,10 +52,11 @@
 
     &:active{
       background-color: #16a84a;
+      box-shadow: none;
     }
   }
   .red{
-    background-color: #a80000;
+    background-color: #c30000;
 
     &:hover{
       background-color: #db1a1a;

@@ -9,6 +9,7 @@ import AddLessonDialog from '../pages/AddLessonDialog'
 import ListDisplaySettingDialog from '../pages/ListDisplaySettingDialog'
 import LessonEdit from '../components/LessonEdit'
 import LessonManager from '../components/LessonManager'
+import License from '../pages/License'
 
 Vue.use(Router)
 
@@ -87,6 +88,13 @@ const routes = [
         path: 'list-display',
         components: {
           ldsd: ListDisplaySettingDialog
+        }
+      },
+      {
+        name: 'license',
+        path: 'license',
+        components: {
+          license: License
         }
       }
     ]

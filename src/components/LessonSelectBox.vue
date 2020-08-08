@@ -69,6 +69,7 @@
 
 <style lang="scss" scoped>
   @import "../assets/sass/global";
+  @import "../assets/sass/color";
 
   .select-box{
     position: relative;
@@ -109,18 +110,18 @@
         }
 
         &:hover{
-          background-color: #c9f6b9;
+          background-color: $hover-color-1;
         }
 
         &:active{
-          background-color: #5ba533;
+          background-color: $active-color-1;
           & > .select-button-element{
             color: white;
           }
         }
       }
       .sb-selected{
-        border-color: #207900;
+        border-color: $select-color-1;
       }
 
       &-none{

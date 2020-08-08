@@ -1,7 +1,24 @@
-$main-color: #006400;
-$selected: #dbff75;
-$border-color: #82c182;
-$border-color-2: #a7d4a7;
+.horizon-margin{
+  margin: 20px 0 10px;
+  border-top: 1px solid #cdcdcd
+}
+
+.message{
+  &-warning{
+    color: darkred;
+  }
+}
+
+.teacher{
+  line-height: 0.9em;
+
+  &:after{
+    display: inline-block;
+    content: '先生';
+    font-size: 0.7em;
+  }
+}
+
 .dialog{
   position: fixed;
   z-index: 10;
@@ -27,9 +44,22 @@ $border-color-2: #a7d4a7;
   .head{
     display: flex;
 
+    & > *{
+      flex-shrink: 0;
+    }
+
     .dialog-title{
       font-size: 1.8em;
       flex-grow: 2;
+      flex-shrink: unset;
     }
   }
+}
+.right-box{
+  display: flex;
+  margin-left: auto;
+}
+.center-box{
+  display: flex;
+  justify-content: space-around;
 }

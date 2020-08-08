@@ -20,15 +20,8 @@
 </template>
 
 <script>
-  import LessonManager from '../components/LessonManager'
-  import LessonEdit from '../components/LessonEdit'
-
   export default {
     name: 'EditPage',
-    components: {
-      'lesson-edit': LessonEdit,
-      'lesson-manager': LessonManager
-    },
     data () {
       return {
         selectTab: ''
@@ -54,6 +47,11 @@
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/sass/global";
+@import "../assets/sass/baloon";
+
   .edit-root{
+    max-width: 700px;
+    margin: 0 auto;
   }
 </style>

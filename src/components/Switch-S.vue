@@ -25,6 +25,8 @@
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/sass/color";
+
   .switch-s{
     display: flex;
 
@@ -33,7 +35,7 @@
     }
 
     .text{
-      color: #646464;
+      color: $disable-color;
       transition: color .3s;
       margin: auto 0 auto 0.3em;
     }
@@ -43,7 +45,7 @@
       position: relative;
       width: 3em;
       height: 1.5em;
-      border: solid 2px #646464;
+      border: solid 2px $disable-color;
       border-radius: 0.85em;
       overflow: hidden;
       transition: border-color .3s;
@@ -55,7 +57,7 @@
         height: 1.5em;
         border-radius: 50%;
         left: 0;
-        background-color: #646464;
+        background-color: $disable-color;
         transform: scale(0.9);
         transition: .3s;
       }
@@ -63,15 +65,15 @@
 
     input:checked{
       & + .check-box{
-        border-color: #00b138;
+        border-color: $sub1-color;
 
         .switch{
-          background-color: #00b138;
+          background-color: $sub1-color;
           left: calc(100% - 1.5em);
         }
       }
       & ~ .text{
-        color: #1b6a36;
+        color: $text-color;
       }
     }
   }

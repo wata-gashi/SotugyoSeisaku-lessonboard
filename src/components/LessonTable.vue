@@ -24,6 +24,7 @@
     th{
       text-align: right;
       width: 20%;
+      white-space: nowrap;
     }
     th,td{
       padding: 0.3em;
