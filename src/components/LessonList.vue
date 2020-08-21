@@ -297,7 +297,19 @@
     table-layout: fixed;
 
     th, td{
-      border: 1px solid $border-color;
+      border-top: 1px solid $border-color;
+      border-left: 1px solid $border-color;
+      z-index: 1;
+    }
+
+    tr:first-child{
+      th, td{
+        border-top: none;
+      }
+    }
+
+    th:first-child, td:first-child{
+      border-left: none;
     }
 
     .day-cell{
@@ -363,8 +375,32 @@
       }
     }
 
+    tr > th:first-child{
+      position: sticky;
+      left: 0;
+      z-index: 2;
+
+      &:before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-right: 1px solid $border-color;
+      }
+    }
+
+    tr:not(:first-child) > th:first-child:before{
+    }
+
     .today-lesson{
       background-color: $point-color;
+      text-shadow:
+        1px 1px 0 white,
+        -1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white;
 
       &:not(.day-cell){
         background-color: $selected;
@@ -373,6 +409,11 @@
 
     .select-lesson-line{
       background-color: $point-sub-color;
+      text-shadow:
+        1px 1px 0 white,
+        -1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white;
 
       &:not(.day-cell):not(.number-cell){
         background-color: $point-sub2-color;
@@ -392,5 +433,6 @@
   .lesson-board-area{
     overflow: auto;
     white-space: nowrap;
+    border: 1px solid $border-color;
   }
 </style>
