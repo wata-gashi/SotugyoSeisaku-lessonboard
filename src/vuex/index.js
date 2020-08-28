@@ -22,6 +22,7 @@ const store = new Vuex.Store({
     },
     setLessons (state, n) {
       state.lessons = n
+      localStorage.setItem('lessons', JSON.stringify(state.lessons))
     },
     setMaxLesson (state, n) {
       state.maxLesson = n

@@ -75,7 +75,7 @@
     position: relative;
     border: 1px solid $border-color;
     height: auto;
-    overflow-x: scroll;
+    overflow-x: auto;
     white-space: nowrap;
 
     &-inner{

@@ -3,9 +3,11 @@
     <div class="balloon-box balloon-box-row right-box" v-if="visibleView">
       <switch-s v-model="todayOnly">今日のみ表示</switch-s>
     </div>
-    <div class="balloon-box">
-      <lesson-list :today-only="todayOnly"
-                   @go-to-dialog="goToDialog($event)"></lesson-list>
+    <div class="top-lesson-box">
+      <div class="balloon-box">
+        <lesson-list :today-only="todayOnly"
+                     @go-to-dialog="goToDialog($event)"></lesson-list>
+      </div>
     </div>
     <router-view name="li" />
   </div>
@@ -51,5 +53,11 @@
     flex-direction: column;
     max-width: 700px;
     margin: 0 auto;
+
+    .top-lesson-box{
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 </style>

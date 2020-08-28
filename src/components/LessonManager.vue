@@ -129,7 +129,8 @@
 
     &-view{
       max-height: 50vh;
-      overflow-y: scroll;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .lesson-box{
@@ -149,6 +150,7 @@
           margin: auto 0;
           font-size: 1.1em;
           padding: 0 5px;
+          word-break: break-all;
         }
 
         .box{
@@ -163,6 +165,7 @@
             text-align: center;
             font-size: .9em;
             margin: auto 0;
+            word-break: break-all;
           }
         }
 

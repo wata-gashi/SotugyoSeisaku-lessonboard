@@ -130,7 +130,6 @@
         this.startZero = this.initStartZero
         localStorage.setItem('maxLesson', this.maxLesson)
         localStorage.setItem('startZero', this.startZero)
-        this.$store.commit('initLessons')
         this.$store.commit('initLessonBoard')
 
         this.initCheckFlag = false
@@ -375,7 +374,7 @@
       }
     }
 
-    tr > th:first-child{
+    tr > th:first-child:not(:last-child){
       position: sticky;
       left: 0;
       z-index: 2;
@@ -422,8 +421,20 @@
 
     #select-lesson{
       background-color: $selected;
-      outline: 2px solid $border-color-4;
-      outline-offset: -1px;
+      position: relative;
+
+      &:before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        background-color: transparent;
+        border: 2px solid $border-color-4;
+        z-index: 1;
+      }
     }
 
     .empty-cell{
@@ -434,5 +445,6 @@
     overflow: auto;
     white-space: nowrap;
     border: 1px solid $border-color;
+    margin-bottom: auto;
   }
 </style>
