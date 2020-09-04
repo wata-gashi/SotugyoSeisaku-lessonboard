@@ -30,6 +30,10 @@
     color: $text-color;
   }
 
+  input,textarea{
+    user-select: auto;
+  }
+
   body{
     margin: 0;
     background-color: #deead9;
