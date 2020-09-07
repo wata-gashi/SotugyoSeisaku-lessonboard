@@ -6,7 +6,7 @@
              @click="clickSb(lesson.id)" tabindex="0">
           <span class="select-button-element" v-text="lesson.name"></span>
           <span class="select-button-element" v-text="lesson.room"></span>
-          <span class="select-button-element" v-text="lesson.teacher"></span>
+          <span class="select-button-element teacher" v-text="lesson.teacher"></span>
         </div>
       </template>
       <span class="select-box-inner-none" v-if="lessonList.length <= 0">

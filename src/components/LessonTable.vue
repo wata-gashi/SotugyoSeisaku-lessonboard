@@ -20,6 +20,8 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../assets/sass/global";
+
   table{
     th{
       text-align: right;
