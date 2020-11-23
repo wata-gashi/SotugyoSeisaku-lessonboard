@@ -59,7 +59,7 @@
 
             if (result) {
               let obj = JSON.parse(result.data)
-              if (obj.name && obj.room && obj.teacher && obj.belongings) {
+              if (obj.name && obj.room && obj.teacher) {
                 clearInterval(loop)
                 return resolve(obj)
               }
