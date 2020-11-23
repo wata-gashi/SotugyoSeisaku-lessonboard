@@ -25,6 +25,7 @@
             </span>
             <span class="edit-box right-box">
               <button-s :red="true" @click-event="clickRemove(lesson.id)">削除</button-s>
+              <button-s @click-event="clickQR(lesson.id)">QR表示</button-s>
               <button-s @click-event="clickLesson(lesson.id)">編集</button-s>
             </span>
           </span>
@@ -35,10 +36,13 @@
       </div>
     </div>
     <div class="right-box">
+      <button-s @click-event="addLessonFromQR">QRから追加</button-s>
       <button-s @click-event="addLesson">追加</button-s>
     </div>
     <router-view name="ald"/>
+    <router-view name="alqr"/>
     <router-view name="led"/>
+    <router-view name="lqr"/>
     <check-dialog v-if="removeCheck" :click-yes="removeOk" :click-no="removeNo">
       <template v-slot:title>確認</template>
       <template v-slot:message>
@@ -78,9 +82,17 @@
       addLesson: function () {
         this.$router.push({name: 'ald'})
       },
+      addLessonFromQR: function () {
+        this.$router.push({name: 'alqr'})
+      },
       clickLesson: function (id) {
         if (this.isExistId(id) >= 0) {
           this.$router.push({name: 'led', params: {id: id.toString()}})
+        }
+      },
+      clickQR: function (id) {
+        if (this.isExistId(id) >= 0) {
+          this.$router.push({name: 'lqr', params: {id: id.toString()}})
         }
       },
       clickRemove (id) {

@@ -10,6 +10,8 @@ import ListDisplaySettingDialog from '../pages/ListDisplaySettingDialog'
 import LessonEdit from '../components/LessonEdit'
 import LessonManager from '../components/LessonManager'
 import License from '../pages/License'
+import LessonQRDialog from '../pages/LessonQRDialog'
+import AddLessonQRDialog from '../pages/AddLessonQRDialog'
 
 Vue.use(Router)
 
@@ -65,6 +67,16 @@ const routes = [
             }
           },
           {
+            name: 'alqr',
+            path: 'add/qr',
+            components: {
+              alqr: AddLessonQRDialog
+            },
+            props: {
+              alqr: true
+            }
+          },
+          {
             name: 'led',
             path: ':id',
             components: {
@@ -72,6 +84,16 @@ const routes = [
             },
             props: {
               led: true
+            }
+          },
+          {
+            name: 'lqr',
+            path: 'qr/:id',
+            components: {
+              lqr: LessonQRDialog
+            },
+            props: {
+              lqr: true
             }
           }
         ]
